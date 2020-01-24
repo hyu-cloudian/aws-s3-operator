@@ -145,16 +145,16 @@ The installation status can be confirmed in two ways:
 ```
 ### Uninstalling
 If you have installed minikube using the direct download method, follow the below steps to uninstall minikube completely from your system <br>
-- - In the shell, type in 
+- In the shell, type in 
 ```
-minikube delete 
+$ minikube delete 
 ```
 to delete the minikube cluster. <br>
 - Uninstall the minikube package using 
 ```
-brew uninstall minikube 
+$ brew uninstall minikube 
 ```
 - Remove the directory containing the minikube configuration 
 ```
-rm -rf ~/.minikube
+$ rm -rf ~/.minikube
 ```
