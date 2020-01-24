@@ -123,7 +123,7 @@ spec:
 [6] set any object name here <br>
 ```diff
 - NOTE: Only remain either generateBucketName or bucketName in this document, otherwise error will occur.<br>
-- bucketName must be unique.
+- BucketName must be globally unique.
 ```
 Then use the following command
 ```
