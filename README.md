@@ -15,7 +15,7 @@ Install Minikube
  $ kubectl create -f objectbucket_v1alpha1_objectbucketclaim_crd.yaml
 ```
 
-2. Deploy the latest AWS S3 Provisioner and create a ClusterRoleBinding.
+2. Deploy the latest AWS S3 Provisioner and create a ClusterRoleBinding.<br>
 AWS s3 Provisioner link https://github.com/yard-turkey/aws-s3-provisioner/blob/master/examples/awss3provisioner-deployment.yaml<br>
 ClusterRoleBinding
 ```
@@ -65,12 +65,12 @@ data:
 ``` 
 [1] Name of the secret, this will be referenced in StorageClass.<br>
 [2] Namespace where the Secret will exist.<br>
-[3] Your AWS_ACCESS_KEY_ID base64 encoded. Encode your AWS_ACCESS_KEY_ID of your AWS account by https://www.base64encode.org/ <br>
-[4] Your AWS_SECRET_ACCESS_KEY base64 encoded. Encode your AWS_SECRET_ACCESS_KEY of your AWS account by https://www.base64encode.org/ <br>
-Then use the following commond
+[3] Your AWS_ACCESS_KEY_ID base64 encoded. Encode your AWS_ACCESS_KEY_ID of your AWS account from https://www.base64encode.org/ <br>
+[4] Your AWS_SECRET_ACCESS_KEY base64 encoded. Encode your AWS_SECRET_ACCESS_KEY of your AWS account from https://www.base64encode.org/ <br>
+Then create secret/s3-bucket-owner
 ``` 
- # kubectl create -f creds.yaml
- secret/s3-bucket-owner created
+# kubectl create -f creds.yaml
+secret/s3-bucket-owner created
 ``` 
 2. Administrator Creates StorageClass
 The StorageClass defines the name of the provisioner and holds other properties that are needed to provision a new bucket, including the Owner Secret and Namespace, and the AWS Region.<br>
@@ -95,7 +95,7 @@ reclaimPolicy: Delete [6]
 [6] reclaimPolicy (Delete or Retain) indicates if the bucket can be deleted when the OBC is deleted.<br>
 NOTE: the absence of the bucketName Parameter key in the storage class indicates this is a new bucket and its name is based on the bucket name fields in the OBC.
 ``` 
- # kubectl create -f storageclass-greenfield.yaml
+# kubectl create -f storageclass-greenfield.yaml
 storageclass.storage.k8s.io/s3-buckets created
 ``` 
 3. User Creates ObjectBucketClaim
@@ -126,8 +126,8 @@ spec:
 ```
 Then use the following command
 ```
- # kubectl create -f obc-brownfield.yaml
- objectbucketclaim.objectbucket.io/myobc created
+# kubectl create -f obc-brownfield.yaml
+objectbucketclaim.objectbucket.io/myobc created
 ```
 
 ### Results and Recap
