@@ -7,7 +7,6 @@ Install Minikube
 ```
  $ brew install minikube
  $ minikube start --kubernetes-version v1.17.0
- 
 ```
 ### Installing
 1. Download objectbucket_v1alpha1_objectbucket_crd.yaml and objectbucket_v1alpha1_objectbucketclaim_crd.yaml from https://github.com/kube-object-storage/lib-bucket-provisioner/tree/master/deploy/crds, then create the ObjectBucket and ObjectBucketClaim
@@ -65,19 +64,19 @@ data:
   AWS_ACCESS_KEY_ID: *base64 encoded value* [3]
   AWS_SECRET_ACCESS_KEY: *base64 encoded value* [4]
 ``` 
-	1	Name of the secret, this will be referenced in StorageClass.
-	2	Namespace where the Secret will exist.
-	3	Your AWS_ACCESS_KEY_ID base64 encoded. Encode your AWS_ACCESS_KEY_ID of your AWS account by https://www.base64encode.org/ 
-	4	Your AWS_SECRET_ACCESS_KEY base64 encoded. Encode your AWS_SECRET_ACCESS_KEY of your AWS account by https://www.base64encode.org/ 
+[1] Name of the secret, this will be referenced in StorageClass.
+[2] Namespace where the Secret will exist.
+[3] Your AWS_ACCESS_KEY_ID base64 encoded. Encode your AWS_ACCESS_KEY_ID of your AWS account by https://www.base64encode.org/ 
+[4] Your AWS_SECRET_ACCESS_KEY base64 encoded. Encode your AWS_SECRET_ACCESS_KEY of your AWS account by https://www.base64encode.org/ 
 Then use the following commond
 ``` 
  # kubectl create -f creds.yaml
  secret/s3-bucket-owner created
 ``` 
-
-Administrator Creates StorageClass
-The StorageClass defines the name of the provisioner and holds other properties that are needed to provision a new bucket, including the Owner Secret and Namespace, and the AWS Region.
-	1	Create the Kubernetes StorageClass for the Provisioner.
+2. Administrator Creates StorageClass
+The StorageClass defines the name of the provisioner and holds other properties that are needed to provision a new bucket, including the Owner Secret and Namespace, and the AWS Region.<br>
+Create the Kubernetes StorageClass for the Provisioner.
+``` 
 kind: StorageClass
 apiVersion: storage.k8s.io/v1
 metadata:
@@ -88,19 +87,22 @@ parameters:
   secretName: s3-bucket-owner [4]
   secretNamespace: s3-provisioner [5]
 reclaimPolicy: Delete [6]
-	1	Name of the StorageClass, this will be referenced in the User ObjectBucketClaim.
-	2	Provisioner name
-	3	AWS Region that the StorageClass will serve
-	4	Name of the bucket owner Secret created above
-	5	Namespace where the Secret will exist
-	6	reclaimPolicy (Delete or Retain) indicates if the bucket can be deleted when the OBC is deleted.
+``` 
+[1] Name of the StorageClass, this will be referenced in the User ObjectBucketClaim.
+[2] Provisioner name
+[3] AWS Region that the StorageClass will serve
+[4] Name of the bucket owner Secret created above
+[5] Namespace where the Secret will exist
+[6] reclaimPolicy (Delete or Retain) indicates if the bucket can be deleted when the OBC is deleted.
 NOTE: the absence of the bucketName Parameter key in the storage class indicates this is a new bucket and its name is based on the bucket name fields in the OBC.
+``` 
  # kubectl create -f storageclass-greenfield.yaml
 storageclass.storage.k8s.io/s3-buckets created
-
-User Creates ObjectBucketClaim
+``` 
+3. User Creates ObjectBucketClaim
 An ObjectBucketClaim follows the same concept as a PVC, in that it is a request for Object Storage, the user doesn't need to concern him/herself with the underlying storage, just that they need access to it. The user will work with the cluster/storage administrator to get the proper StorageClass needed and will then request access via the OBC.
-	1	Create the ObjectBucketClaim.
+Create the ObjectBucketClaim.
+``` 
 apiVersion: objectbucket.io/v1alpha1
 kind: ObjectBucketClaim
 metadata:
@@ -110,12 +112,17 @@ spec:
   generateBucketName: mybucket-prefix- [3]
   bucketName: my-awesome-bucket [4]
   storageClassName: s3-buckets [5]
-	1	Name of the OBC
-	2	Namespace of the OBC
-	3	Name prepended to a random string used to generate a bucket name. It is ignored if bucketName is defined
-	4	Name of new bucket which must be unique across all AWS regions, otherwise an error occurs when creating the bucket. If present, this name overrides generateName
-	5	StorageClass name
-NOTE: if both generateBucketName and bucketName are omitted, and the storage class does not define a bucket name, then a new, random bucket name is generated with no prefix.
+ ``` 
+[1] Name of the OBC
+[2] Namespace of the OBC
+[3] Name prepended to a random string used to generate a bucket name. It is ignored if bucketName is defined
+[4] Name of new bucket which must be unique across all AWS regions, otherwise an error occurs when creating the bucket. If present, this name overrides generateName
+[5] StorageClass name
+```diff
+- NOTE: only remain either generateBucketName or bucketName in this document, otherwise error will occur.
+```
+
+
  # kubectl create -f obc-brownfield.yaml
 objectbucketclaim.objectbucket.io/myobc created
 
