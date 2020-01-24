@@ -112,14 +112,18 @@ spec:
   generateBucketName: mybucket-prefix- [3]
   bucketName: my-awesome-bucket [4]
   storageClassName: s3-buckets [5]
+  additionalConfig:
+    additionalProperties: test[6]
  ``` 
-[1] Name of the OBC
-[2] Namespace of the OBC
-[3] Name prepended to a random string used to generate a bucket name. It is ignored if bucketName is defined
-[4] Name of new bucket which must be unique across all AWS regions, otherwise an error occurs when creating the bucket. If present, this name overrides generateName
-[5] StorageClass name
+[1] Name of the OBC <br>
+[2] Namespace of the OBC <br>
+[3] Name prepended to a random string used to generate a bucket name. It is ignored if bucketName is defined <br>
+[4] Name of new bucket which must be unique across all AWS regions, otherwise an error occurs when creating the bucket. If present, this name overrides generateName <br>
+[5] StorageClass name <br>
+[6] set any object name here <br>
 ```diff
-- NOTE: only remain either generateBucketName or bucketName in this document, otherwise error will occur.
+- NOTE: Only remain either generateBucketName or bucketName in this document, otherwise error will occur.<br>
+- bucketName must be unique.
 ```
 Then use the following command
 ```
@@ -130,4 +134,13 @@ Then use the following command
 ### Results and Recap
 Let's pause for a moment and digest what just happened. After creating the OBC, and assuming the S3 provisioner is running, we now have the following Kubernetes resources: . a global ObjectBucket (OB) which contains: bucket endpoint info (including region and bucket name), a reference to the OBC, and a reference to the storage class. Unique to S3, the OB also contains the bucket Amazon Resource Name (ARN).Note: there is always a 1:1 relationship between an OBC and an OB. . a ConfigMap in the same namespace as the OBC, which contains the same endpoint data found in the OB. . a Secret in the same namespace as the OBC, which contains the AWS key-pairs needed to access the bucket.
 And of course, we have a new AWS S3 Bucket which you should be able to see via the AWS Console.
-ObjectBucket
+ObjectBucket<br>
+The installation status can be confirmed in two ways:
+1. Login in your AWS account to confirm whether new bucket has been created.
+2. using command line to check thether new bucket has been created.
+```
+ $ cd .aws/
+ $ vi config
+ (change AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY to your AWS account)
+ $ aws s3 ls
+```
