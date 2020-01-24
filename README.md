@@ -143,3 +143,18 @@ The installation status can be confirmed in two ways:
  (change AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY to your AWS account)
  $ aws s3 ls
 ```
+### Uninstalling
+If you have installed minikube using the direct download method, follow the below steps to uninstall minikube completely from your system <br>
+- - In the shell, type in 
+```
+minikube delete 
+```
+to delete the minikube cluster. <br>
+- Uninstall the minikube package using 
+```
+brew uninstall minikube 
+```
+- Remove the directory containing the minikube configuration 
+```
+rm -rf ~/.minikube
+```
