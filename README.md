@@ -170,3 +170,16 @@ $ brew uninstall minikube
 ```
 $ rm -rf ~/.minikube
 ```
+### Useful commands
+Check log status
+```
+$ kubectl log aws-s3-provisioner-deployment-94987d57-dsjxc -n s3-provisioner
+```
+Check deployment status
+```
+$ kubectl get deployment -n s3-provisioner
+```
+Check pod status
+```
+$ kubectl get pod -n s3-provisioner
+```
