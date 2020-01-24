@@ -46,7 +46,7 @@ spec:
 ``` 
   kubectl create clusterrolebinding <rolename> --clusterrole=cluster-admin --user=system:serviceaccount:<namespace>:default
   i.e.
-  # kubectl create clusterrolebinding cluster-admin-aws --clusterrole=cluster-admin --user=system:serviceaccount:s3-  provisioner:default
+  # kubectl create clusterrolebinding cluster-admin-aws --clusterrole=cluster-admin --user=system:serviceaccount:s3-provisioner:default
 ```
 
 ### Administrator Creates Secret
