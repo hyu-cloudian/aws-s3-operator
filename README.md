@@ -16,7 +16,13 @@ Install Minikube
 ```
 
 2. Deploy the latest AWS S3 Provisioner and create a ClusterRoleBinding.<br>
-AWS s3 Provisioner link https://github.com/yard-turkey/aws-s3-provisioner/blob/master/examples/awss3provisioner-deployment.yaml<br>
+Create namespace named s3-provisioner
+```
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: s3-provisioner
+```
 ClusterRoleBinding
 ```
 apiVersion: apps/v1
@@ -42,6 +48,12 @@ spec:
         imagePullPolicy: Always
       restartPolicy: Always
 ```
+Then use the following command <br>
+```
+ $ kubectl create -f s3-namespaces.yaml
+ $ kubectl create -f aws-s3-provisioner-deployment.yaml
+```
+
 3. Create a ClusterRoleBinding for the default serviceaccount that will run your provisioner.
 ``` 
   kubectl create clusterrolebinding <rolename> --clusterrole=cluster-admin --user=system:serviceaccount:<namespace>:default
