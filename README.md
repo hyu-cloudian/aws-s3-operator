@@ -13,7 +13,6 @@ Install Minikube
 ```
  $ kubectl create -f objectbucket_v1alpha1_objectbucket_crd.yaml
  $ kubectl create -f objectbucket_v1alpha1_objectbucketclaim_crd.yaml
- 
 ```
 
 2. Deploy the latest AWS S3 Provisioner and create a ClusterRoleBinding.
